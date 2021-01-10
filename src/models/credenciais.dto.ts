@@ -1,4 +1,4 @@
 export interface CredenciaisDTO {
-    email : string;
+    userName : string;
     senha : string;
 }

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CidadeDTO } from '../../models/cidade.dto';
 import { EstadoDTO } from '../../models/estado.dto';
 import { CidadeService } from '../../services/domain/cidade.service';
+import { ClienteService } from '../../services/domain/cliente.service';
 import { EstadoService } from '../../services/domain/estado.service';
 
 @IonicPage()
@@ -22,13 +23,15 @@ export class SignupPage {
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public cidadeService: CidadeService,
-    public estadoService: EstadoService) {
+    public estadoService: EstadoService,
+    public clienteService: ClienteService,
+    public alertCrtl: AlertController) {
 
       this.formGroup = this.formBuilder.group({
         nome: ['Lucas', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
         email: ['lucas@gmail.com', [Validators.required, Validators.email]],
         tipo: ['1', [Validators.required]],
-        nuDocumento: ['09905760431', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
+        numDocumento: ['09905760431', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
         senha: ['321', [Validators.required]],
         logradouro: ['Rua da Concordia', [Validators.required]],
         numero: ['23', [Validators.required]],
@@ -66,6 +69,33 @@ export class SignupPage {
   }
 
   signupUser(){
-    console.log('enviou o form');
+    this.clienteService.insert(this.formGroup.value)
+    .subscribe(resposne =>{
+      this.showInsertOk();
+    },
+    error =>{}
+    );
+  }
+
+  showInsertOk(){
+    let alert = this.alertCrtl.create({
+      title: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            /** 
+             * Se a inclusão foi feita com sucesso,
+             * desempilha a página de signup que foi empilhada anteriormente
+             * no home.ts
+             **/
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

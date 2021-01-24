@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EnderecoDTO } from '../../models/endereco.dto';
+import { ClienteService } from '../../services/domain/cliente.service';
+import { StorageService } from '../../services/storage.service';
 
 @IonicPage()
 @Component({
@@ -13,44 +15,28 @@ export class SelecaoEnderecoPage {
   
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    public clienteService: ClienteService,
+    public storage: StorageService) {
   }
 
   ionViewDidLoad() {
-    this.enderecos = [
-      {
-        id: "1",
-        logradouro: "Rua Quinze de Novembro",
-        numero: "300",
-        complemento: "Apto 200",
-        bairro: "Santa Mônica",
-        cep: "48293822",
-        cidade: {
-          id: "1",
-          nome: "Recife",
-          estado: {
-            id: "1",
-            nome: "Pernambuco"
+    let localUser = this.storage.getLocalUser();
+
+    if(localUser && localUser.email){
+      this.clienteService.findByEmail(localUser.email)
+      .subscribe(response =>{
+        this.enderecos = response['enderecos'];
+        },
+        error => {
+          if(error.status == 403){
+            this.navCtrl.setRoot('HomePage');
           }
         }
-      },
-      {
-        id: "2",
-        logradouro: "Rua Alexandre Toledo da Silva",
-        numero: "405",
-        complemento: null,
-        bairro: "Centro",
-        cep: "88933822",
-        cidade: {
-          id: "3",
-          nome: "Jampa",
-          estado: {
-            id: "2",
-            nome: "Paraiba"
-          }
-        }
-      }
-    ];
+        );
+    }else{
+      this.navCtrl.setRoot('HomePage');
+    }
   }
 
 }

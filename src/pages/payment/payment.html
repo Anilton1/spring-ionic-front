@@ -9,6 +9,7 @@
 
 <ion-content padding>
 
+  <!-- $event.preventDefault() funciona para controlar o envio no formulario manualmente-->
   <form [formGroup]="formGroup" (ngSubmit)="nextPage(); $event.preventDefault()">
     <ion-list radio-group formControlName="@type">
       <ion-list-header>

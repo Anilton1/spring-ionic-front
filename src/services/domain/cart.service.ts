@@ -42,7 +42,7 @@ export class CartService{
         let cart = this.getCart();
         let position = cart.itens.findIndex(p => p.produto.id == produto.id);
 
-        if(position != 1){
+        if(position != -1){
             cart.itens.splice(position, 1);
         }
 
@@ -55,7 +55,7 @@ export class CartService{
         let cart = this.getCart();
         let position = cart.itens.findIndex(p => p.produto.id == produto.id);
 
-        if(position != 1){
+        if(position != -1){
             cart.itens[position].quantidade++;
         }
 
@@ -68,7 +68,7 @@ export class CartService{
         let cart = this.getCart();
         let position = cart.itens.findIndex(p => p.produto.id == produto.id);
 
-        if(position != 1){
+        if(position != -1){
             cart.itens[position].quantidade--;
 
             if(cart.itens[position].quantidade < 1){

@@ -1,4 +1,4 @@
 export const API_CONFIG = {
-    baseUrl: "http://localhost:8081",
+    baseUrl: "https://curso-spring-ionic-fullstack.herokuapp.com",
     bucketBaseUrl: "https://spring-ionic-anilton.s3-sa-east-1.amazonaws.com"
 }

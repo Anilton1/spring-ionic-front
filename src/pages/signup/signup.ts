@@ -31,7 +31,7 @@ export class SignupPage {
         nome: ['Lucas', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
         email: ['lucas@gmail.com', [Validators.required, Validators.email]],
         tipo: ['1', [Validators.required]],
-        numDocumento: ['09905760431', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
+        numDocumento: ['64603103000', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
         senha: ['321', [Validators.required]],
         logradouro: ['Rua da Concordia', [Validators.required]],
         numero: ['23', [Validators.required]],
